@@ -28,6 +28,12 @@ public class BoardService {
         Board b = dao.findById(num).orElse(null);
         return new BoardDto(b.getNum(), b.getWdate(), b.getUdate(), b.getMember(), b.getTitle(), b.getContent(), b.getCnt());
     }
+    
+    // pk로 검색. dao.findById()
+    public Board getBoard2(int num) {
+        Board b = dao.findById(num).orElse(null);
+        return b;
+    }
 
     // pk로 공지사항 검색. dao.findById()
     public NotifyDto getNotify(int num) {

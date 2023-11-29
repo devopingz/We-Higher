@@ -1,49 +1,74 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout}">
+	layout:decorate="~{layout}">
 <div layout:fragment="content">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Insert title here</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-        <script type="text/javascript" th:inline="javascript">
-            $(document).ready(function () {
-                $("#del").click(function () {
-                    location.href = "/board/del?num=[[${b.num }]]";//url /board/del로 삭제요청. 삭제할 글번호를 파라메터 num으로 보냄
-                });
-            });
-        </script>
-    </head>
-    <body>
-    <div class="container py-4">
-            <div class="text-end mt-5 ">
-                <a href="/board/list" class="btn btn-secondary" style="font-size: 13px;">목록</a>
-            </div>
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-        <p class="card-text" style="font-size: 20px;"><strong>[자유게시판]</strong></p>
-            <div class="card mt-5">
-                <div class="card-header">
-                    <h2 class="card-title" id="title">[[${b.title}]]</h2>
-                </div>
-                <div class="card-body">
-                    <p class="card-text" id="content" th:text="${b.content}"
-                       style="font-size: 15px; margin-bottom: 50px;"></p>
-                    <div class="row">
-                        <div class="col-md-3 ">
-                            <span>첨부파일: </span>
-                            <a class="ml-3" style="display: inline-block; width: auto;"></a>
-                        </div>
-                    </div>
-                    <p class="card-text"><small class="text-muted">게시자: </small>
-                        <small class="text-muted" id="writer" th:text="${b.member.name }"></small>
-                        <small class="text-muted"> | 게시일: </small>
-                        <small class="text-muted" id="wdate" th:text="${b.wdate }"></small>
-                    </p>
-                </div>
-            </div>
-    </div>
-    </body>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	</head>
+
+	<body>
+		<div class="container py-4">
+			<div class="text-end mt-5 ">
+				<a href="/board/list" class="btn btn-secondary" style="font-size: 13px;">목록</a>
+			</div>
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+			<p class="card-text" style="font-size: 20px;"><strong>[자유게시판]</strong></p>
+			<div class="card mt-5">
+				<div class="card-header">
+					<h2 class="card-title" id="title">[[${b.title}]]</h2>
+				</div>
+				<div class="card-body">
+					<p class="card-text" id="content" th:text="${b.content}"
+						style="font-size: 15px; margin-bottom: 50px;"></p>
+					<div class="row">
+						<div class="col-md-3 ">
+							<span>첨부파일: </span>
+							<a class="ml-3" style="display: inline-block; width: auto;"></a>
+						</div>
+					</div>
+					<p class="card-text"><small class="text-muted">게시자: </small>
+						<small class="text-muted" id="writer" th:text="${b.member.name }"></small>
+						<small class="text-muted"> | 게시일: </small>
+						<small class="text-muted" id="wdate" th:text="${b.wdate }"></small>
+						<input type="hidden" id="bnum" name="bnum" th:value="${b.num}">
+					</p>
+				</div>
+			</div>
+			<div class="comment-box">
+
+				<div class="comment-count">댓글<span id="count">0</span></div>
+
+				<!-- <span class="c-icon"><i class="fa-solid fa-user"></i>  -->
+				<div class="comment-name">
+					<span class="anonym">작성자 :
+						<input type="text" class="form-control" id="com_writer" placeholder="이름" name="com_writer"
+							th:value="${#authentication.principal.name}" readonly style="width: 250px; border:none;">
+					</span>
+				</div>
+
+				<!-- </span> -->
+				<!--<img src="/익명.jpg" width ="50px" alt="My Image"><!-->
+				<div class="comment-sbox">
+					<textarea class="comment-input" id="com_content" cols="80" rows="2" name="com_content"></textarea>
+					<!-- <span class="com-function-btn" type="hidden">
+                            
+                            <a href="#"><i class="fa-solid fa-pen-to-square"></i></a>
+                            <a href="#"><i class="fa-solid fa-trash-can"></i></a>
+                         </span> -->
+				</div>
+				<div class="regBtn">
+					<button id="Comment_regist"> 등록</button>
+					<button id="Comment_edit"> 수정</button>
+					<button id="Comment_del"> 삭제</button>
+				</div>
+			</div>
+	</body>
 </div>
+<th:block layout:fragment="script">
+	<script src="/board/js/board_form.js" type='text/javascript'></script>
+</th:block>
 
 </html>
